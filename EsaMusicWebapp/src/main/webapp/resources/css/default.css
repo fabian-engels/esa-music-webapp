@@ -1,0 +1,6 @@
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 95%;
+}
+.ui-button-text-only .ui-button-text {
+    padding: 2px;
+}

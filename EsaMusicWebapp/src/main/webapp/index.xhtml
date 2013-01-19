@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>ESA Music Cloud</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <h:outputStylesheet library="css" name="default.css" />
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    Header
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+                    This site is using Last.fm, LyricWiki and Itunes
+                    <h:form id="form1">
+                        <p:growl id="growl" showDetail="true"/>
+                        <p:panel menuTitle="Search Panel">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:inputText id="titleInp" value="#{viewController.titleInp}"/>
+                                <p:commandButton id="searchTitleBtn" value="searchTitleBtn" onclick="#{viewController.searchTitle()}"/> 
+                                <p:inputText id="artistInp" value="#{viewController.artistInp}"/>
+                                <p:commandButton id="searchArtistBtn" value="searchArtistBtn" onclick="#{viewController.searchArtist()}"/>
+                                <p:inputText id="lyricInp" value="#{viewController.lyricInp}"/>
+                                <p:commandButton id="searchLyricBtn" value="searchLyricBtn" onclick="#{viewController.searchLyric()}"/>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:dataTable id="musicTable" var="track"  rowKey="#{track.title}"
+                                     selection="#{viewController.selectedTrack}" selectionMode="single"
+                                     rows="20" value="#{viewController.trackList}" paginator="true">
+
+                            <p:ajax event="rowSelect" update=":form1:trackDialog" oncomplete="dlg1.show()" />  
+
+                            <f:facet name="header">
+                                Music found according to search:
+                            </f:facet>
+
+                            <p:column headerText="Artist" sortBy="#{track.artist}">
+                                <h:outputText value="#{track.artist}"/>
+                            </p:column>
+                            <p:column headerText="Title" sortBy="#{track.title}">
+                                <h:outputText value="#{track.title}"/>
+                            </p:column>
+                            <p:column headerText="Album" sortBy="#{track.album}">
+                                <h:outputText value="#{track.album}"/>
+                            </p:column>
+                            <p:column headerText="Cover">
+                                <h:graphicImage style="height: 60px;width: 60px" url="#{track.imageUri}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:dialog id="trackDialog" widgetVar="dlg1" resizable="false"
+                                  header="Track Detail" >
+
+                            <p:panelGrid columns="2">
+                                <p:panelGrid columns="2" >
+                                    <h:outputText value="title"/>
+                                    <h:outputText value="#{viewController.selectedTrack.title}"/>
+                                    <h:outputText value="artist"/>
+                                    <h:outputText value="#{viewController.selectedTrack.artist}"/>
+                                    <h:outputText value="album"/>
+                                    <h:outputText value="#{viewController.selectedTrack.album}"/>
+                                    <h:outputText value="year"/>
+                                    <h:outputText value="#{viewController.selectedTrack.year}"/>
+                                    <h:outputText value="lyric"/>
+                                    <h:inputTextarea rows="10" cols="100" readonly="true" value="#{viewController.selectedTrack.lyric}"/>
+                                    <h:outputText value="lyricUri"/>
+                                    <h:outputLink value="#{viewController.selectedTrack.lyricUri}">
+                                        #{viewController.selectedTrack.lyricUri}
+                                    </h:outputLink>
+                                    <h:outputText value="amazonLink"/>
+                                    <h:outputLink value="#{viewController.selectedTrack.amazonLink}">
+                                        #{viewController.selectedTrack.amazonLink}
+                                    </h:outputLink>
+                                    <h:outputText value="sampleUri"/>
+                                    <h:outputLink value="#{viewController.selectedTrack.sampleUri}">
+                                        #{viewController.selectedTrack.sampleUri}
+                                    </h:outputLink>
+                                </p:panelGrid>
+                                <h:graphicImage height="60px" width="60px" url="#{viewController.selectedTrack.imageUri}" alt="Album Image" />
+                            </p:panelGrid>
+                        </p:dialog>
+                    </h:form>
+                </p:layoutUnit>
+                
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+
