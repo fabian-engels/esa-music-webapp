@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -37,7 +38,8 @@ public class ViewController implements Serializable {
     private String lyricInp;
     private String titleInp;
     private String artistInp;
-    UserAuth userAuth;
+    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
+    private UserAuth userAuth;
 
     public ViewController() {
         trackList = new ArrayList<Track>();
@@ -67,18 +69,23 @@ public class ViewController implements Serializable {
 
         Context ctx = null;
         UserAuth foo = null;
-
         try {
-            ctx = new InitialContext();
-            foo = (UserAuth)ctx.lookup("java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth");
-//           foo = (UserAuth)PortableRemoteObject.narrow( ctx.lookup("de.esa.auth.jpa.UserAuth"), UserAuth.class);  
-           UserObject register = foo.register("fooba", "foopw");
-            UserObject login = foo.login("fooba", "foopw");
-            boolean deleteUser = foo.deleteUser(login);
-            //           foo = (UserAuth) ctx.lookup("UserAuth");  
-        } catch (NamingException ex) {
-            Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch(IllegalNameException ex){
+            userAuth.register("foobar", "foobarpw");
+    /*
+            try {
+                ctx = new InitialContext();
+                foo = (UserAuth)ctx.lookup("java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth");
+               foo = (UserAuth)PortableRemoteObject.narrow( ctx.lookup("de.esa.auth.jpa.UserAuth"), UserAuth.class);  
+               UserObject register = foo.register("fooba", "foopw");
+                UserObject login = foo.login("fooba", "foopw");
+                boolean deleteUser = foo.deleteUser(login);
+                //           foo = (UserAuth) ctx.lookup("UserAuth");  
+            } catch (NamingException ex) {
+                Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch(IllegalNameException ex){
+                Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+        } catch (IllegalNameException ex) {
             Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
