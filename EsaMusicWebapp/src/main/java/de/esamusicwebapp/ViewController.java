@@ -4,24 +4,19 @@
  */
 package de.esamusicwebapp;
 
-import de.esa.auth.domain.UserObject;
-import de.esa.auth.jpa.IllegalNameException;
-import de.esa.auth.jpa.UserAuth;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NameAlreadyBoundException;
-import javax.naming.NamingException;
-import javax.rmi.PortableRemoteObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,8 +33,11 @@ public class ViewController implements Serializable {
     private String lyricInp;
     private String titleInp;
     private String artistInp;
-    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
-    private UserAuth userAuth;
+    @EJB
+    private UserAuthBean userAuthBean;
+    @EJB
+    private SessionManagerBean sessionManagerBean;
+//    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
 
     public ViewController() {
         trackList = new ArrayList<Track>();
@@ -66,41 +64,31 @@ public class ViewController implements Serializable {
 
         trackList.add(new Track("Cypress Hill", "Intro", "Stoned Raiders", "http://ecx.images-amazon.com/images/I/61vw7Ah7rzL._SL500_AA300_.jpg"));
         selectedTrack = new Track("foo", "foo", "foo", "foo");
-
-        Context ctx = null;
-        UserAuth foo = null;
-        try {
-            userAuth.register("foobar", "foobarpw");
-    /*
-            try {
-                ctx = new InitialContext();
-                foo = (UserAuth)ctx.lookup("java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth");
-               foo = (UserAuth)PortableRemoteObject.narrow( ctx.lookup("de.esa.auth.jpa.UserAuth"), UserAuth.class);  
-               UserObject register = foo.register("fooba", "foopw");
-                UserObject login = foo.login("fooba", "foopw");
-                boolean deleteUser = foo.deleteUser(login);
-                //           foo = (UserAuth) ctx.lookup("UserAuth");  
-            } catch (NamingException ex) {
-                Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch(IllegalNameException ex){
-                Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-        } catch (IllegalNameException ex) {
-            Logger.getLogger(ViewController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
+
+    private void authenticate(){
+        HttpServletRequest request = null;
+        HttpServletResponse response = null;
+        HttpSession session = null;
+        FacesContext context = FacesContext.getCurrentInstance();
+        request = (HttpServletRequest) context.getExternalContext().getRequest();
+        response = (HttpServletResponse) context.getExternalContext().getResponse();
+        session = request.getSession(true);
+    }
+   
 
     /**
      * Proxy Method to call the business logic.
      */
-    public void searchTitle() {
+    public void searchTitle(AjaxBehaviorEvent event) {
+        userAuthBean.register("bob","pw");
         //  this.trackList = viewModel.searchTitle(titleInp);
     }
 
     /**
      * Proxy Method to call the business logic.
      */
-    public void searchArtist() {
+    public void searchArtist(AjaxBehaviorEvent event) {
         //   this.trackList = viewModel.searchArtist(artistInp);
     }
 
