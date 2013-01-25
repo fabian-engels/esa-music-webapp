@@ -1,8 +1,7 @@
 package de.esa.auth.jpa;
 
-import javax.ejb.Remote;
-
 import de.esa.auth.domain.UserObject;
+import javax.ejb.Remote;
 
 @Remote
 public interface UserAuth {
