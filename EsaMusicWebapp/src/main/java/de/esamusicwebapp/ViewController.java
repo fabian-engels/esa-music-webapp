@@ -7,23 +7,18 @@ package de.esamusicwebapp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.component.behavior.AjaxBehavior;
-import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author nto
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ViewController implements Serializable {
 
     @Inject
@@ -33,10 +28,8 @@ public class ViewController implements Serializable {
     private String lyricInp;
     private String titleInp;
     private String artistInp;
-    @EJB
-    private UserAuthBean userAuthBean;
-    @EJB
-    private SessionManagerBean sessionManagerBean;
+    //@EJB
+    //private UserAuthBean userAuthBean;
 //    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
 
     public ViewController() {
@@ -45,7 +38,9 @@ public class ViewController implements Serializable {
         // dummy value creation
         trackList.add(new Track("Linkin Park", "Papercut", "Hybrid Theory",
                 "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg", "2000",
-                "Why does it feel like night today?\nSomething in here is not right today\nWhy am I so uptight today?\nParanoia\'s all I got left\nI don\'t know what stressed me first\nOr how the pressure was fed",
+                "Why does it feel like night today?\nSomething in here is not "
+                + "right today\nWhy am I so uptight today?\nParanoia\'s all I got "
+                + "left\nI don\'t know what stressed me first\nOr how the pressure was fed",
                 "http://lyrics.wikia.com/Linkin_Park:Papercut",
                 "http://www.amazon.de/gp/product/B003IIPI5I/ref=dm_mu_dp_trk1",
                 "http://www.amazon.de/gp/dmusic/media/sample.m3u/ref=dm_sp_smpl?ie=UTF8&ASIN=B003IIPI5I&CustomerID=A3F1G1265D1P40&catalogItemType=track"));
@@ -66,29 +61,20 @@ public class ViewController implements Serializable {
         selectedTrack = new Track("foo", "foo", "foo", "foo");
     }
 
-    private void authenticate(){
-        HttpServletRequest request = null;
-        HttpServletResponse response = null;
-        HttpSession session = null;
-        FacesContext context = FacesContext.getCurrentInstance();
-        request = (HttpServletRequest) context.getExternalContext().getRequest();
-        response = (HttpServletResponse) context.getExternalContext().getResponse();
-        session = request.getSession(true);
-    }
-   
-
     /**
      * Proxy Method to call the business logic.
      */
-    public void searchTitle(AjaxBehaviorEvent event) {
-        userAuthBean.register("bob","pw");
+    public void searchTitle() {
+        Logger.getLogger("ViewController").log(Level.INFO, "searchTitle called");
+        //userAuthBean.register("bob","pw");
         //  this.trackList = viewModel.searchTitle(titleInp);
     }
 
     /**
      * Proxy Method to call the business logic.
      */
-    public void searchArtist(AjaxBehaviorEvent event) {
+    public void searchArtist() {
+        System.out.print("searchArtist");
         //   this.trackList = viewModel.searchArtist(artistInp);
     }
 
@@ -96,6 +82,7 @@ public class ViewController implements Serializable {
      * Proxy Method to call the business logic.
      */
     public void searchLyric() {
+        System.out.print("searchLyric");
         //  this.trackList = viewModel.searchLyric(lyricInp);
     }
 
@@ -147,7 +134,10 @@ public class ViewController implements Serializable {
      * @param selectedTrack
      */
     public void setSelectedTrack(Track selectedTrack) {
-        System.out.println("setSelectedTrack called: " + selectedTrack.title);
-        this.selectedTrack = selectedTrack;
+        if(selectedTrack == null) {
+            this.selectedTrack = this.trackList.get(0);
+        }else{
+            this.selectedTrack = selectedTrack;
+        }
     }
 }

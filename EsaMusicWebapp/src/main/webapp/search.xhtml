@@ -32,11 +32,11 @@
                         <p:panel menuTitle="Search Panel">
                             <h:panelGrid columns="2" cellpadding="5">
                                 <p:inputText id="titleInp" value="#{viewController.titleInp}"/>
-                                <p:commandButton id="searchTitleBtn" value="searchTitleBtn" onclick="#{viewController.searchTitle()}"/> 
+                                <p:commandButton id="searchTitleBtn" value="searchTitleBtn" actionListener="#{viewController.searchTitle()}" ajax="false"/> 
                                 <p:inputText id="artistInp" value="#{viewController.artistInp}"/>
-                                <p:commandButton id="searchArtistBtn" value="searchArtistBtn" onclick="#{viewController.searchArtist()}"/>
+                                <p:commandButton id="searchArtistBtn" value="searchArtistBtn" actionListener="#{viewController.searchArtist()}" ajax="false"/>
                                 <p:inputText id="lyricInp" value="#{viewController.lyricInp}"/>
-                                <p:commandButton id="searchLyricBtn" value="searchLyricBtn" onclick="#{viewController.searchLyric()}"/>
+                                <p:commandButton id="searchLyricBtn" value="searchLyricBtn" actionListener="#{viewController.searchLyric()}" ajax="false"/>
                             </h:panelGrid>
                         </p:panel>
 
