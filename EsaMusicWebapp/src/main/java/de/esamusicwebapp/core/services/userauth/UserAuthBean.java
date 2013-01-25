@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.esamusicwebapp;
+package de.esamusicwebapp.core.services.userauth;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

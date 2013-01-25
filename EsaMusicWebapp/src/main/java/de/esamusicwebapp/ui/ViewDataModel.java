@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.esamusicwebapp;
+package de.esamusicwebapp.ui;
 
 import de.esamusicwebapp.core.entity.Track;
 import java.util.List;
