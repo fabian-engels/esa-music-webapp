@@ -4,6 +4,7 @@
  */
 package de.esamusicwebapp;
 
+import de.esamusicwebapp.core.entity.Track;
 import java.util.List;
 import javax.ejb.Stateless;
 
