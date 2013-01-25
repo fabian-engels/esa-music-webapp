@@ -1,6 +1,1 @@
 To create multiple glassfish instances use the following command: *asadmin create-domain --portbase*
-
-
-Man muss dann die ports mitgeben (wird im command erklärt) und WICHTIG einen Domänennamen. Zum Beispiel "a" als Domänennamen
-
-Mit dem domänennamen kann man den 2. Server dann starten: asadmin start-domain a
