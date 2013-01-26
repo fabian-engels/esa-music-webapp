@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.esamusicwebapp.core.entity.Track;
-import de.esamusicwebapp.core.services.lastfm.LastFM;
+import de.esamusicwebapp.core.services.lastfm.LastFMApi;
 
 public class SearchManager {
 	
@@ -21,7 +21,7 @@ public class SearchManager {
 	
 	public List<Track> searchTracks(final String songTitle, final String artist) {
 		
-		List<Track> trackList = LastFM.getInstance().searchTrack(songTitle, artist);
+		List<Track> trackList = LastFMApi.getInstance().searchTrack(songTitle, artist);
       if (trackList.isEmpty()) { trackList.add(new Track("leer", "leer", "leer", "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg")); }
       /*
       
