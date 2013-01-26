@@ -2,13 +2,8 @@ package de.esamusicwebapp.core.services.lastfm;
 
 import de.esamusicwebapp.core.entity.Track;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
@@ -24,16 +19,29 @@ import org.xml.sax.SAXException;
  * @author Michael
  */
 public class LastFMApi {
+    /**
+     * API Root-Url
+     */
     private static final String APPLICATION_URL = "http://ws.audioscrobbler.com/2.0/?";
+    /**
+     * API Key
+     */
     private static final String API_KEY         = "b3e1a560606cc5ac6b121eca31e54084";
     
     /** 
-     * Beispiel:
+     * Example:
      * http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=cher&api_key=b3e1a560606cc5ac6b121eca31e54084    
      */
     
+    /**
+     * Singleton Instance
+     */
 	 private static LastFMApi instance;
-	
+	 
+    /**
+     * Creates a singleton instance of the LastFMApi
+     * @return Instance of LastFMApi
+     */
 	 public static LastFMApi getInstance() {
 	     if (instance == null) {
             instance = new LastFMApi();
@@ -41,22 +49,38 @@ public class LastFMApi {
 		  return instance;
 	 }
     
+    /**
+     * Internal Class for grouping album infos
+     */
     class AlbumInfo {
        public String mbid;
        public String albumname;
        public String artist;
        public String image;
     }
-    
+
+    /**
+     * Internal Class for grouping tack infos
+     */    
     class TrackInfo {
        public String mbid;
        public String trackname;
        public String artist;
        public String image;
+       public String lastfmuri;
     }    
 	
+    /**
+     * Singleton Constructor
+     */
     private LastFMApi() {}
     
+    /**
+     * Searches for track by trackname (and optional by artistname)
+     * @param trackName the name of the track
+     * @param optionalArtistName the name of the artist (option)
+     * @return List of Track Objects
+     */
     public List<Track> searchTrack(final String trackName, final String optionalArtistName) {
         List<Track> resultList = _getTracks(trackName, optionalArtistName);
         return resultList;
@@ -76,7 +100,7 @@ public class LastFMApi {
                                                  searchTerm +
                                                  Parameter.api_key + "=" + API_KEY;
  
-            Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
+            //Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
             
             final Document xmlResult = _fetchResourceAtURI(uri);
             
@@ -110,9 +134,12 @@ public class LastFMApi {
                         if (parameterNode.getNodeName().equals(Parameter.image.toString())) {
                             info.image = parameterNode.getTextContent();
                         }                        
+                        if (parameterNode.getNodeName().equals(Parameter.url.toString())) {
+                            info.lastfmuri = parameterNode.getTextContent();
+                        }                        
                         
-                        if (info.mbid != null && info.trackname != null && info.artist != null && info.image != null) {
-                            trackList.add(new Track(info.artist,info.trackname,"",info.image));
+                        if (info.mbid != null && info.trackname != null && info.artist != null && info.image != null && info.lastfmuri != null) {
+                            trackList.add(new Track(info.artist,info.trackname,"",info.image, "", "", "", "", info.lastfmuri));
                             break;
                         }
                     } 
@@ -146,7 +173,7 @@ public class LastFMApi {
                                                  Parameter.artist  + "=" + artistName + "&" +
                                                  Parameter.api_key + "=" + API_KEY;
  
-            Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
+            //Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
             
             final Document xmlResult = _fetchResourceAtURI(uri);
             

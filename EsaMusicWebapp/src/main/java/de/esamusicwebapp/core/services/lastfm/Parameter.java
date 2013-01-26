@@ -14,5 +14,6 @@ public enum Parameter {
    artist,
    name,
    image,
+   url,
    api_key
 }
