@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.esamusicwebapp.core.entity.Track;
+import de.esamusicwebapp.core.services.lastfm.LastFM;
 
 public class SearchManager {
 	
@@ -20,8 +21,10 @@ public class SearchManager {
 	
 	public List<Track> searchTracks(final String songTitle, final String artist) {
 		
-		List<Track> trackList = new ArrayList<Track>();
-
+		List<Track> trackList = LastFM.getInstance().searchTrack(songTitle, artist);
+      if (trackList.isEmpty()) { trackList.add(new Track("leer", "leer", "leer", "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg")); }
+      /*
+      
         // dummy value creation
         trackList.add(new Track("Linkin Park", "Papercut", "Hybrid Theory",
                 "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg", "2000",
@@ -43,7 +46,7 @@ public class SearchManager {
         trackList.add(new Track("Linkin Park", "Cure For The Itch", "Hybrid Theory", "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg"));
         trackList.add(new Track("Linkin Park", "Pushing Me Away", "Hybrid Theory", "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg"));
         
-        trackList.add(new Track("Cypress Hill", "Intro", "Stoned Raiders", "http://ecx.images-amazon.com/images/I/61vw7Ah7rzL._SL500_AA300_.jpg"));
+        trackList.add(new Track("Cypress Hill", "Intro", "Stoned Raiders", "http://ecx.images-amazon.com/images/I/61vw7Ah7rzL._SL500_AA300_.jpg"));*/
         return trackList;
 	}
 	

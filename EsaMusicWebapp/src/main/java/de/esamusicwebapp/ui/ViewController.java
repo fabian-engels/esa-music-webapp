@@ -35,7 +35,7 @@ public class ViewController implements Serializable {
 //    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
 
     public ViewController() {
-        trackList = SearchManager.getInstance().searchTracks("test", "linkin Park");
+        trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
         selectedTrack = new Track("foo", "foo", "foo", "foo");
     }
 
