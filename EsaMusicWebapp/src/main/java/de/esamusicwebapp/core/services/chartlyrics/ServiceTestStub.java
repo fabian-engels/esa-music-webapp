@@ -5,8 +5,6 @@
 package de.esamusicwebapp.core.services.chartlyrics;
 
 import de.esamusicwebapp.core.entity.Track;
-import de.esamusicwebapp.core.services.chartlyrics.ChartLyricsApi;
-import de.esamusicwebapp.core.services.chartlyrics.ChartLyricsApi;
 import java.rmi.RemoteException;
 import org.apache.axis2.AxisFault;
 
@@ -18,7 +16,7 @@ import org.apache.axis2.AxisFault;
 public class ServiceTestStub {
 
     public static void main(String[] args) throws AxisFault, RemoteException {
-        Track track = new Track("Michael Jacksonasdfsafas", "Thrisafsafller", "test", "http://www.web.de");
+        Track track = new Track("Michael Jackson", "Thriller", "test", "http://www.web.de");
         ChartLyricsApi.getInstance().addLyric(track);
         System.out.println(track.getLyric());
     }
