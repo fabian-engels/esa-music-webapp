@@ -1,7 +1,7 @@
 package de.esamusicwebapp.core.services.lastfm;
 
 /**
- *
+ * Enumeration of available search parameters of the LastFM API
  * @author Michael
  */
 public enum Parameter {

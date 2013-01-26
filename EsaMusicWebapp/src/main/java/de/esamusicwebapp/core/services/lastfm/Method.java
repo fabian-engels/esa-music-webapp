@@ -1,7 +1,7 @@
 package de.esamusicwebapp.core.services.lastfm;
 
 /**
- *
+ * Enumeration for the available search methods of the LastFM API (there are some more available, that could be implement)
  * @author Michael
  */
 public enum Method {

@@ -86,6 +86,13 @@ public class LastFMApi {
         return resultList;
     }
     
+    /**
+     * Searches for track by trackname (and optional by artistname), processes the result XML and creates
+     * the Tracklist
+     * @param trackName
+     * @param optionalArtistName
+     * @return List of Tracks
+     */
     private List<Track> _getTracks(final String trackName, final String optionalArtistName) {
         List<Track> trackList = new ArrayList<Track>();
 
@@ -152,6 +159,11 @@ public class LastFMApi {
         return trackList;
     }    
     
+    /**
+     * Searches for albums their tracks by artistname
+     * @param artistName the name of the artist (Must be valid! Example: "Linkin Park", NOT "Linkin"  )
+     * @return List of Tracks
+     */
     public List<Track> searchArtist(final String artistName) {
         List<Track> resultList = new ArrayList<Track>();
 
@@ -165,6 +177,11 @@ public class LastFMApi {
         return resultList;
     }
     
+    /**
+     * Retrieves a list of AlbumInfo by looking for the artist name
+     * @param artistName the name of the artist (Must be valid! Example: "Linkin Park", NOT "Linkin"  )
+     * @return List of AlbumInfos 
+     */
     private List<AlbumInfo> _getAlbumInfos(final String artistName) {
         List<AlbumInfo> albumList = new ArrayList<AlbumInfo>();
 
@@ -220,6 +237,11 @@ public class LastFMApi {
         return albumList;
     }
     
+    /**
+     * Adds tracks from the album to the trackList
+     * @param tracksList the tracklist where the tracks will be added to
+     * @param albumInfo the albuminfo for looking after the tracks of the album
+     */
     private void _addTracksToList(final List<Track> tracksList, final AlbumInfo albumInfo) {
         try {
             String searchTerm;
@@ -266,7 +288,11 @@ public class LastFMApi {
         }       
     }
     
-    
+    /**
+     * Parses an XML Document object from the given url
+     * @param url the url to the xml content
+     * @return XML Document
+     */
 	 private Document _fetchResourceAtURI(final String url) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder;
