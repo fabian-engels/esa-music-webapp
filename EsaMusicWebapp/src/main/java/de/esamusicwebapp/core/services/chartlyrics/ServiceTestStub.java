@@ -5,6 +5,8 @@
 package de.esamusicwebapp.core.services.chartlyrics;
 
 import de.esamusicwebapp.core.entity.Track;
+import de.esamusicwebapp.core.services.chartlyrics.ChartLyricsApi;
+import de.esamusicwebapp.core.services.chartlyrics.ChartLyricsApi;
 import java.rmi.RemoteException;
 import org.apache.axis2.AxisFault;
 

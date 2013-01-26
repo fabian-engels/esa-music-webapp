@@ -36,13 +36,13 @@ public class ChartLyricsApi {
      */
     public void addLyric(final Track track) {
         try {
-            Apiv1Stub st = new Apiv1Stub();
-            SearchLyricDirectDocument b = SearchLyricDirectDocument.Factory.newInstance();
-            SearchLyricDirectDocument.SearchLyricDirect doc = SearchLyricDirectDocument.SearchLyricDirect.Factory.newInstance();
-            doc.setArtist(track.getArtist());
-            doc.setSong(track.getTitle());
-            b.setSearchLyricDirect(doc);
-            GetLyricResult result = st.SearchLyricDirect(b).getSearchLyricDirectResponse().getSearchLyricDirectResult();
+            Apiv1Stub apiStub = new Apiv1Stub();
+            SearchLyricDirectDocument searchDocument = SearchLyricDirectDocument.Factory.newInstance();
+            SearchLyricDirectDocument.SearchLyricDirect searchLyric = SearchLyricDirectDocument.SearchLyricDirect.Factory.newInstance();
+            searchLyric.setArtist(track.getArtist());
+            searchLyric.setSong(track.getTitle());
+            searchDocument.setSearchLyricDirect(searchLyric);
+            GetLyricResult result = apiStub.SearchLyricDirect(searchDocument).getSearchLyricDirectResponse().getSearchLyricDirectResult();
             if(result.getLyricId() != 0) {
                 //Lyric wurde gefunden
                 track.setLyric(result.getLyric());
