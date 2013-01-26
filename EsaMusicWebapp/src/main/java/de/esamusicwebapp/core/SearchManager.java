@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.esamusicwebapp.core.entity.Track;
+import de.esamusicwebapp.core.services.chartlyrics.ChartLyricsApi;
 import de.esamusicwebapp.core.services.lastfm.LastFMApi;
 
 public class SearchManager {
@@ -47,6 +48,9 @@ public class SearchManager {
         trackList.add(new Track("Linkin Park", "Pushing Me Away", "Hybrid Theory", "http://kwinofnothing.files.wordpress.com/2012/09/linkinpark-hybridtheory.jpg"));
         
         trackList.add(new Track("Cypress Hill", "Intro", "Stoned Raiders", "http://ecx.images-amazon.com/images/I/61vw7Ah7rzL._SL500_AA300_.jpg"));*/
+        for (Track track : trackList) {
+            ChartLyricsApi.getInstance().addLyric(track);
+        }
         return trackList;
 	}
 	
