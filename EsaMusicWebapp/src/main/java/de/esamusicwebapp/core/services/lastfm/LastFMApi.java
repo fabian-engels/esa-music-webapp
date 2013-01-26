@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  *
  * @author Michael
  */
-public class LastFM {
+public class LastFMApi {
     private static final String APPLICATION_URL = "http://ws.audioscrobbler.com/2.0/?";
     private static final String API_KEY         = "b3e1a560606cc5ac6b121eca31e54084";
     
@@ -32,11 +32,11 @@ public class LastFM {
      * http://ws.audioscrobbler.com/2.0/?method=artist.search&artist=cher&api_key=b3e1a560606cc5ac6b121eca31e54084    
      */
     
-	 private static LastFM instance;
+	 private static LastFMApi instance;
 	
-	 public static LastFM getInstance() {
+	 public static LastFMApi getInstance() {
 	     if (instance == null) {
-            instance = new LastFM();
+            instance = new LastFMApi();
 		  }
 		  return instance;
 	 }
@@ -55,7 +55,7 @@ public class LastFM {
        public String image;
     }    
 	
-    private LastFM() {}
+    private LastFMApi() {}
     
     public List<Track> searchTrack(final String trackName, final String optionalArtistName) {
         List<Track> resultList = _getTracks(trackName, optionalArtistName);
@@ -76,7 +76,7 @@ public class LastFM {
                                                  searchTerm +
                                                  Parameter.api_key + "=" + API_KEY;
  
-            Logger.getLogger(LastFM.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
             
             final Document xmlResult = _fetchResourceAtURI(uri);
             
@@ -119,7 +119,7 @@ public class LastFM {
                 }
             }     
         } catch (Exception ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return trackList;
@@ -146,7 +146,7 @@ public class LastFM {
                                                  Parameter.artist  + "=" + artistName + "&" +
                                                  Parameter.api_key + "=" + API_KEY;
  
-            Logger.getLogger(LastFM.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.INFO, "SearchTerm: " + uri, new Exception());
             
             final Document xmlResult = _fetchResourceAtURI(uri);
             
@@ -187,7 +187,7 @@ public class LastFM {
                 }
             }     
         } catch (Exception ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return albumList;
@@ -235,7 +235,7 @@ public class LastFM {
                 }
             }     
         } catch (Exception ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, null, ex);
         }       
     }
     
@@ -250,11 +250,11 @@ public class LastFM {
             builder = factory.newDocumentBuilder();
             result = builder.parse(url);
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, "XMLParser --> ParserConfigurationException", ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, "XMLParser --> ParserConfigurationException", ex);
         } catch (SAXException ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, "XMLParser --> SAXException", ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, "XMLParser --> SAXException", ex);
         } catch (IOException ex) {
-            Logger.getLogger(LastFM.class.getName()).log(Level.SEVERE, "XMLParser --> IOException", ex);
+            Logger.getLogger(LastFMApi.class.getName()).log(Level.SEVERE, "XMLParser --> IOException", ex);
         }        
         
         return result;
