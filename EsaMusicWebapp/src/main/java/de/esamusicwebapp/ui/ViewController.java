@@ -6,14 +6,11 @@ package de.esamusicwebapp.ui;
 
 import de.esamusicwebapp.core.SearchManager;
 import de.esamusicwebapp.core.entity.Track;
+import de.esamusicwebapp.core.services.lastfm.LastFMApi;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Inject;
 
 /**
  *
@@ -23,45 +20,23 @@ import javax.inject.Inject;
 @SessionScoped
 public class ViewController implements Serializable {
 
-    @Inject
-    private ViewDataModelLocal viewModel;
     private List<Track> trackList;
     private Track selectedTrack;
     private String lyricInp;
     private String titleInp;
     private String artistInp;
-    //@EJB
-    //private UserAuthBean userAuthBean;
+    private final Track defaultSelection = new Track("foo", "foo", "foo", "foo");
 //    @EJB(lookup="java:global/EsaUserAuth/UserAuthImpl!de.esa.auth.jpa.UserAuth")
 
     public ViewController() {
         trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
-        selectedTrack = new Track("foo", "foo", "foo", "foo");
     }
 
     /**
      * Proxy Method to call the business logic.
      */
-    public void searchTitle() {
-        Logger.getLogger("ViewController").log(Level.INFO, "searchTitle called");
-        //userAuthBean.register("bob","pw");
-        //  this.trackList = viewModel.searchTitle(titleInp);
-    }
-
-    /**
-     * Proxy Method to call the business logic.
-     */
-    public void searchArtist() {
-        System.out.print("searchArtist");
-        //   this.trackList = viewModel.searchArtist(artistInp);
-    }
-
-    /**
-     * Proxy Method to call the business logic.
-     */
-    public void searchLyric() {
-        System.out.print("searchLyric");
-        //  this.trackList = viewModel.searchLyric(lyricInp);
+    public void searchTrack() {
+       this.trackList = LastFMApi.getInstance().searchTrack(this.titleInp, this.artistInp);
     }
 
     public String getLyricInp() {
@@ -113,7 +88,7 @@ public class ViewController implements Serializable {
      */
     public void setSelectedTrack(Track selectedTrack) {
         if(selectedTrack == null) {
-            this.selectedTrack = this.trackList.get(0);
+            this.selectedTrack = this.defaultSelection;
         }else{
             this.selectedTrack = selectedTrack;
         }

@@ -31,12 +31,11 @@
                         <p:growl id="growl" showDetail="true"/>
                         <p:panel menuTitle="Search Panel">
                             <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Title: "/>
                                 <p:inputText id="titleInp" value="#{viewController.titleInp}"/>
-                                <p:commandButton id="searchTitleBtn" value="searchTitleBtn" actionListener="#{viewController.searchTitle()}" ajax="false"/> 
+                                <h:outputText value="Artist: "/>
                                 <p:inputText id="artistInp" value="#{viewController.artistInp}"/>
-                                <p:commandButton id="searchArtistBtn" value="searchArtistBtn" actionListener="#{viewController.searchArtist()}" ajax="false"/>
-                                <p:inputText id="lyricInp" value="#{viewController.lyricInp}"/>
-                                <p:commandButton id="searchLyricBtn" value="searchLyricBtn" actionListener="#{viewController.searchLyric()}" ajax="false"/>
+                                <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{viewController.searchTrack()}" ajax="false"/> 
                             </h:panelGrid>
                         </p:panel>
 
@@ -56,9 +55,6 @@
                             <p:column headerText="Title" sortBy="#{track.title}">
                                 <h:outputText value="#{track.title}"/>
                             </p:column>
-                            <p:column headerText="Album" sortBy="#{track.album}">
-                                <h:outputText value="#{track.album}"/>
-                            </p:column>
                             <p:column headerText="Cover">
                                 <h:graphicImage style="height: 60px;width: 60px" url="#{track.imageUri}"/>
                             </p:column>
@@ -69,25 +65,13 @@
 
                             <p:panelGrid columns="2">
                                 <p:panelGrid columns="2" >
-                                    <h:outputText value="title"/>
+                                    <h:outputText value="Title"/>
                                     <h:outputText value="#{viewController.selectedTrack.title}"/>
-                                    <h:outputText value="artist"/>
+                                    <h:outputText value="Artist"/>
                                     <h:outputText value="#{viewController.selectedTrack.artist}"/>
-                                    <h:outputText value="album"/>
-                                    <h:outputText value="#{viewController.selectedTrack.album}"/>
-                                    <h:outputText value="year"/>
-                                    <h:outputText value="#{viewController.selectedTrack.year}"/>
-                                    <h:outputText value="lyric"/>
+                                    <h:outputText value="Lyric"/>
                                     <h:inputTextarea rows="10" cols="100" readonly="true" value="#{viewController.selectedTrack.lyric}"/>
-                                    <h:outputText value="lyricUri"/>
-                                    <h:outputLink value="#{viewController.selectedTrack.lyricUri}">
-                                        #{viewController.selectedTrack.lyricUri}
-                                    </h:outputLink>
-                                    <h:outputText value="amazonLink"/>
-                                    <h:outputLink value="#{viewController.selectedTrack.amazonLink}">
-                                        #{viewController.selectedTrack.amazonLink}
-                                    </h:outputLink>
-                                    <h:outputText value="sampleUri"/>
+                                    <h:outputText value="SampleUri"/>
                                     <h:outputLink value="#{viewController.selectedTrack.sampleUri}">
                                         #{viewController.selectedTrack.sampleUri}
                                     </h:outputLink>
@@ -102,4 +86,3 @@
         </h:body>
     </f:view>
 </html>
-

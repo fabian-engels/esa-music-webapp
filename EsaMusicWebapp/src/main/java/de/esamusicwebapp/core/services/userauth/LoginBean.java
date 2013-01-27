@@ -22,8 +22,6 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped 
 public class LoginBean implements Serializable{
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
     private String username;
     private String password;
     private boolean loggedin;
