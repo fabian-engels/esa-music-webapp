@@ -26,16 +26,17 @@
                 
                 <p:layoutUnit position="center">
                     <h:form id="loginForm">
-                        <p:panelGrid columns="2">
-                            Usename: <p:inputText id="usernameInp" value="#{loginBean.username}"/>
-                            Password: <p:inputText id="passwordInp" value="#{loginBean.password}"/>
-                            <p:commandButton id="loginBtn" value="Login" action="#{loginBean.login}"/>
-                            <p:commandButton id="registerBtn" value="register" action="#{loginBean.register}"/>
+                        <p:panelGrid id="loginGrid" columns="3">
+                            <h:outputText value="Username:"/>
+                            <p:inputText id="usernameInp" value="#{loginBean.username}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
+                            <h:outputText value="Password:"/>
+                            <p:inputText id="passwordInp" value="#{loginBean.password}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
+                            <p:commandButton id="loginBtn" value="Login" action="#{loginBean.login}" update="loginGrid"/>
+                            <p:commandButton id="registerBtn" value="register" action="#{loginBean.register}" update="loginGrid"/>
                         </p:panelGrid>
                     </h:form>
                 </p:layoutUnit>
             </p:layout>
-            
         </h:body>
     </f:view>
 </html>
