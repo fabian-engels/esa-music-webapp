@@ -1,27 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.chartlyrics</groupId>
-  <artifactId>chartlyrics-client</artifactId>
-  <version>1.0</version>
-  <packaging>jar</packaging>
+    <groupId>de.chartlyrics</groupId>
+    <artifactId>chartlyrics-client</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
 
-  <name>ChartLyricsClient</name>
-  <url>http://maven.apache.org</url>
+    <name>ChartLyricsClient</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2</artifactId>
             <version>1.4</version>
@@ -75,12 +75,11 @@
             <groupId>org.apache.woden</groupId>
             <artifactId>woden-api</artifactId>
             <version>1.0M8</version>
-        </dependency>
-          
-  </dependencies>
-  <build>
+        </dependency> 
+    </dependencies>
+    <build>
         <plugins>
-  <plugin>
+            <plugin>
                 <groupId>org.apache.axis2</groupId>
                 <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
                 <version>1.4</version>
@@ -98,5 +97,5 @@
                 </executions>
             </plugin>
         </plugins>
-  </build>
+    </build>
 </project>
