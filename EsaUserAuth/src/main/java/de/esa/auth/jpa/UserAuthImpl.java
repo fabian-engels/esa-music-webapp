@@ -79,11 +79,11 @@ public class UserAuthImpl implements UserAuth {
         manager.getTransaction().commit();
 
         if (getUserByName(username) == null) {
-            return false;
+            return true;
         }
         JPAUtil.shutdown();
 
-        return true;
+        return false;
     }
 
     @Override
