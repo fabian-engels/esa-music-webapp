@@ -23,9 +23,6 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class LoginViewBean implements Serializable {
 
-    /*@EJB
-    private UserAuthClient userAuthClient;*/
-    
     @EJB(beanInterface=UserAuthRemote.class)
     private UserAuthRemote userAuth;
     @EJB
@@ -59,27 +56,29 @@ public class LoginViewBean implements Serializable {
     public String login() {
          UserObject result =null;
         try{
-       result = userAuth.login(this.usernameInp, this.passwordInp);
+            result = userAuth.login(this.usernameInp, this.passwordInp);
         }catch(IllegalUsernameException ex){
-            
+            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", ex.getLocalizedMessage()));
         }
         if (result == null) {
             FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", "Login failed username or password are unknown."));
+            return "/login";
         }
-        return "/login";
+        return "/search";
     }
 
     public String register() {
         UserObject result=null;
         try {
-        result = userAuth.register(this.usernameInp, this.passwordInp);
-            
-        } catch (IllegalUsernameException e) {
+            result = userAuth.register(this.usernameInp, this.passwordInp);
+        } catch (IllegalUsernameException ex) {
+            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", ex.getLocalizedMessage()));
         }
         if (result == null) {
             FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registration failure", "Username is already in use."));
+            return "/login";
         }
-        return "/login";
+        return "/search";
     }
 
     public String getUsernameInp() {
