@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>ESA Music Cloud</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <h:outputStylesheet library="css" name="default.css" />
+            <p:layout fullPage="true">
+                 <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    Header
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    Footer
+                </p:layoutUnit>
+                
+                <p:layoutUnit position="center">
+                    <h:form id="loginForm">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" /> 
+                        <p:panelGrid id="loginGrid" columns="3">
+                            Username:
+                            <p:inputText id="usernameInp" value="#{loginViewBean.usernameInp}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
+                            Password:
+                            <p:inputText id="passwordInp" value="#{loginViewBean.passwordInp}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
+                            <p:commandButton id="loginBtn" value="Login" action="#{loginViewBean.login}" update="loginGrid"/>
+                            <p:commandButton id="registerBtn" value="register" action="#{loginViewBean.register}" update="loginGrid"/>
+                        </p:panelGrid>
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
