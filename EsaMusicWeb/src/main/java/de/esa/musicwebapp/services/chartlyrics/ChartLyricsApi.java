@@ -4,7 +4,12 @@
  */
 package de.esa.musicwebapp.services.chartlyrics;
 
+import com.chartlyrics.api.GetLyricResult;
+import com.chartlyrics.api.SearchLyricDirectDocument;
+import de.chartlyricsclient.Apiv1Stub;
 import de.esa.musicwebapp.entity.Track;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,7 +33,7 @@ public class ChartLyricsApi {
      * @param track 
      */
     public void addLyric(final Track track) {
-      /*  try {
+        try {
             Apiv1Stub apiStub = new Apiv1Stub();
             SearchLyricDirectDocument searchDocument = SearchLyricDirectDocument.Factory.newInstance();
             SearchLyricDirectDocument.SearchLyricDirect searchLyric = SearchLyricDirectDocument.SearchLyricDirect.Factory.newInstance();
@@ -46,6 +51,6 @@ public class ChartLyricsApi {
         }
         if(track.getLyricUri() == null || track.getLyricUri().isEmpty()) {
             track.setLyricUri("http://www.chartlyrics.com/");
-        }*/
+        }
     }
 }

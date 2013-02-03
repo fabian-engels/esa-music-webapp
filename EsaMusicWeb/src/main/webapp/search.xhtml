@@ -29,13 +29,14 @@
                     This site is using Last.fm, LyricWiki and Itunes
                     <h:form id="form1">
                         <p:growl id="growl" showDetail="true"/>
-                        <p:panel menuTitle="Search Panel">
+                        <p:panel menuTitle="Search Panel" >
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputText value="Title: "/>
                                 <p:inputText id="titleInp" value="#{searchViewBean.titleInp}"/>
                                 <h:outputText value="Artist: "/>
                                 <p:inputText id="artistInp" value="#{searchViewBean.artistInp}"/>
                                 <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{searchViewBean.searchTrack()}" ajax="false"/> 
+                                <p:commandButton id="logoutBtn" value="Logout" actionListener="#{searchViewBean.logout()}" ajax="false"/> 
                             </h:panelGrid>
                         </p:panel>
 

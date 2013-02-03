@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 /**
  *
  * @author nto
@@ -27,6 +28,11 @@ public class SearchViewBean implements Serializable {
     
     public SearchViewBean() {
         trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
+    }
+    
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login";
     }
 
     /**

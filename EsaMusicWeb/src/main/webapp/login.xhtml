@@ -31,7 +31,7 @@
                             Username:
                             <p:inputText id="usernameInp" value="#{loginViewBean.usernameInp}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
                             Password:
-                            <p:inputText id="passwordInp" value="#{loginViewBean.passwordInp}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
+                            <p:password id="passwordInp" value="#{loginViewBean.passwordInp}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
                             <p:commandButton id="loginBtn" value="Login" action="#{loginViewBean.login}" update="loginGrid"/>
                             <p:commandButton id="registerBtn" value="register" action="#{loginViewBean.register}" update="loginGrid"/>
                         </p:panelGrid>

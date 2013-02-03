@@ -28,11 +28,17 @@ public class LoginViewBean implements Serializable {
     @EJB
     private ChangePWClient changePWClient;
     
+    private UserObject current;
+    
     private String usernameInp;
     private String passwordInp;
 
     public LoginViewBean(){
         
+    }
+    
+    public boolean isLoggedIn() {
+        return current != null;
     }
     
     public String changePW() {
@@ -54,17 +60,17 @@ public class LoginViewBean implements Serializable {
     }
 
     public String login() {
-         UserObject result =null;
         try{
-            result = userAuth.login(this.usernameInp, this.passwordInp);
+            current = userAuth.login(this.usernameInp, this.passwordInp);
         }catch(IllegalUsernameException ex){
             FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", ex.getLocalizedMessage()));
         }
-        if (result == null) {
+        if (current == null) {
             FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", "Login failed username or password are unknown."));
             return "/login";
         }
-        return "/search";
+        //return "/search";
+        return "search?faces-redirect=true";
     }
 
     public String register() {
