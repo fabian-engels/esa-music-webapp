@@ -38,9 +38,9 @@ public class LoginViewBean implements Serializable {
         try {
             LOGGER.log(Level.WARNING, "### Getting JNDI Resources ###");
             InitialContext ict = new InitialContext();
-            NamingEnumeration children = ict.list("");
+            NamingEnumeration<NameClassPair> children = ict.list("");
             while (children.hasMoreElements()) {
-                NameClassPair ncPair = (NameClassPair) children.next();
+                NameClassPair ncPair = children.next();
                 LOGGER.log(Level.WARNING, "{0} (type ", ncPair.getName());
                 LOGGER.log(Level.WARNING, "{0})", ncPair.getClassName());
             }
@@ -61,26 +61,42 @@ public class LoginViewBean implements Serializable {
             currentUser = userAuth.login(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
             displayFailure(ex.getLocalizedMessage());
+            return "";
         }
         if (currentUser == null) {
-            displayFailure("Login failed username or password are unknown.");
-            return "login?faces-redirect=true";
+            displayFailure("Username or password are unknown.");
+            return "";
         }else{
             return "search?faces-redirect=true";
         }
     }
 
+    private boolean verifyCredentials() {
+        boolean result = true;
+        if(usernameInp == null || usernameInp.trim().length() == 0) {
+            displayError("growl", "Invalid input", "Username is required.");
+            result = false;
+        }
+        if(passwordInp == null || passwordInp.trim().length() == 0) {
+            displayError("growl", "Invalid input", "Password is required.");
+            result = false;
+        }
+        return result;
+    }
+        
     public String register() {
         try {
             currentUser = userAuth.register(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
             displayFailure(ex.getLocalizedMessage());
+            return "";
         }
         if (currentUser == null) {
             displayFailure("Username is already in use.");
-            return "login";
+            return "";
+        }else{
+            return "search?faces-redirect=true";
         }
-        return "search";
     }
 
     public String getUsernameInp() {
@@ -100,6 +116,10 @@ public class LoginViewBean implements Serializable {
     }
 
     private void displayFailure(String message) {
-        FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", message));
+        displayError("growl", "LoginFailure", message);
+    }
+
+    private void displayError(String component, String title, String message) {
+        FacesContext.getCurrentInstance().addMessage(component, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
     }
 }

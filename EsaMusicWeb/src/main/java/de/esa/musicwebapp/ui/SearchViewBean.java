@@ -71,8 +71,9 @@ public class SearchViewBean implements Serializable {
         if (result) {
         } else {
             displayFailure("Unable to delete the user named: " + currentUser.getName());
+            return "";
         }
-        return "search";
+        return "login";
     }
 
     public SearchViewBean() {

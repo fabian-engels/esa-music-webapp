@@ -16,11 +16,11 @@
         <h:body>
             <h:outputStylesheet library="css" name="default.css" />
             <p:layout fullPage="true">
-                 <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                 <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
                     Header
                 </p:layoutUnit>
 
-                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
                     Footer
                 </p:layoutUnit>
                 
@@ -33,8 +33,8 @@
                             <p:inputText id="usernameInp" value="#{login.usernameInp}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
                             Password:
                             <p:password id="passwordInp" value="#{login.passwordInp}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
-                            <p:commandButton id="loginBtn" value="Login" action="#{login.login()}" update="loginGrid"/>
-                            <p:commandButton id="registerBtn" value="register" action="#{login.register()}" update="loginGrid"/>
+                            <p:commandButton id="loginBtn" value="Login" action="#{login.login()}" update="loginForm"/>
+                            <p:commandButton id="registerBtn" value="register" action="#{login.register()}" update="loginForm"/>
                         </p:panelGrid>
                     </h:form>
                 </p:layoutUnit>

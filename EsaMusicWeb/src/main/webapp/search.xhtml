@@ -17,11 +17,11 @@
             <h:outputStylesheet library="css" name="default.css" />
             <p:layout fullPage="true">
 
-                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
                     Header
                 </p:layoutUnit>
 
-                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
                     Footer
                 </p:layoutUnit>
 
@@ -41,7 +41,7 @@
                     
                     <h:form id="form1">
                         <p:panel menuTitle="Search Panel" >
-                            <h:panelGrid columns="2" cellpadding="5">
+                            <h:panelGrid columns="2" cellpadding="5" border="1">
                                 <h:outputText value="Title: "/>
                                 <p:inputText id="titleInp" value="#{search.titleInp}"/>
                                 <h:outputText value="Artist: "/>
