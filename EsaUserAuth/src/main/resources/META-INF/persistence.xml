@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL">
-    <!-- shouldn't be valid for java SE per specification, but it works for EclipseLink ... -->
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+  <persistence-unit name="persUnit" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>mysqlCon</jta-data-source>
+    <class>de.esa.userauth.domain.UserObject</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esa"/>
-      <property name="javax.persistence.jdbc.user" value="esa"/>
-      <property name="javax.persistence.jdbc.password" value="1234"/>
-      <!-- EclipseLink should create the database schema automatically -->
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
-      <property name="eclipselink.ddl-generation.output-mode" value="database"/>
-      <property name="eclipselink.logging.level" value="SEVERE"/>
-      <property name="eclipselink.weaving" value="false"/>
-      <property name="" value="1234"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
