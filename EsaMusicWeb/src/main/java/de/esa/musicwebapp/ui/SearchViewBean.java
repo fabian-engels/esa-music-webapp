@@ -11,10 +11,10 @@ import de.esa.userauth.domain.UserObject;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -32,24 +32,24 @@ public class SearchViewBean implements Serializable {
     private String artistInp;
     private String oldPwdInp;
     private String newPwdInp;
-    @ManagedProperty(value = "#{login.currentUser}")
-    private UserObject currentUser;
     @EJB
     private ChangePWClient changePWClient;
+    @ManagedProperty(value = "#{login.currentUser}")
+    private UserObject currentUser;
 
     public void setCurrentUser(UserObject currentUser) {
         this.currentUser = currentUser;
     }
-
+    
     public String changePW() {
+        boolean result = false;
         if (currentUser == null) {
             displayFailure("SearchViewBean currentUser is NULL");
-        }
-        if (this.newPwdInp == null) {
+        }else if (this.newPwdInp == null) {
             displayFailure("SearchViewBean new password is NULL");
+        }else{
+            result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
         }
-
-        boolean result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
         if (result) {
             displayInfo("Password successfuly changed.");
         } else {

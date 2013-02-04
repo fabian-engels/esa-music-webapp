@@ -27,8 +27,19 @@
 
                 <p:layoutUnit position="center">
                     This site is using Last.fm, LyricWiki and Itunes
-                    <h:form id="form1">
+                    <h:form id="passwordForm">
                         <p:growl id="growl" showDetail="true"/>
+                     <h:panelGrid columns="2" cellpadding="5" border="1">
+                                old password:
+                                <p:inputText id="oldPwdInp" value="#{search.oldPwdInp}"/>
+                                new password:
+                                <p:inputText id="newPwdInp" value="#{search.newPwdInp}"/>
+                                <p:commandButton id="changePasswordBtn" value="Change password" actionListener="#{search.changePW()}" update="growl" ajax="false"/>
+                                <p:commandButton id="deleteUserBtn" value="Delete my user" actionListener="#{search.deleteUser()}" update="growl" ajax="false"/>
+                            </h:panelGrid>
+                        </h:form>
+                    
+                    <h:form id="form1">
                         <p:panel menuTitle="Search Panel" >
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputText value="Title: "/>
@@ -38,14 +49,7 @@
                                 <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{search.searchTrack()}" ajax="false"/> 
                                 <p:commandButton id="logoutBtn" value="Logout" actionListener="#{search.logout()}" ajax="false"/> 
                             </h:panelGrid>
-                            <h:panelGrid columns="2" cellpadding="5" border="1">
-                                old password:
-                                <p:inputText id="oldPwdInp" value="#{search.oldPwdInp}"/>
-                                new password:
-                                <p:inputText id="newPwdInp" value="#{search.newPwdInp}"/>
-                                <p:commandButton id="changePasswordBtn" value="Change password" actionListener="#{search.changePW()}" ajax="false"/>
-                                <p:commandButton id="deleteUserBtn" value="Delete my user" actionListener="#{search.deleteUser()}" ajax="false"/>
-                            </h:panelGrid>
+                           
                         </p:panel>
 
                         <p:dataTable id="musicTable" var="track"  rowKey="#{track.title}"

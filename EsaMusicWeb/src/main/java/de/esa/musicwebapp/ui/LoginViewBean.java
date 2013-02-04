@@ -4,7 +4,6 @@
  */
 package de.esa.musicwebapp.ui;
 
-import de.esa.musicwebapp.service.userauth.ChangePWClient;
 import de.esa.userauth.domain.IllegalUsernameException;
 import de.esa.userauth.domain.UserAuthRemote;
 import de.esa.userauth.domain.UserObject;
@@ -13,8 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.InitialContext;
 import javax.naming.NameClassPair;
@@ -28,7 +27,7 @@ import javax.naming.NamingEnumeration;
 @SessionScoped
 public class LoginViewBean implements Serializable {
 
-    private static Logger LOGGER = Logger.getLogger(LoginViewBean.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoginViewBean.class.getName());
     @EJB
     private UserAuthRemote userAuth;
     private UserObject currentUser;
@@ -42,8 +41,8 @@ public class LoginViewBean implements Serializable {
             NamingEnumeration children = ict.list("");
             while (children.hasMoreElements()) {
                 NameClassPair ncPair = (NameClassPair) children.next();
-                LOGGER.log(Level.WARNING, ncPair.getName() + " (type ");
-                LOGGER.log(Level.WARNING, ncPair.getClassName() + ")");
+                LOGGER.log(Level.WARNING, "{0} (type ", ncPair.getName());
+                LOGGER.log(Level.WARNING, "{0})", ncPair.getClassName());
             }
         } catch (Exception e) {
         }
@@ -65,20 +64,19 @@ public class LoginViewBean implements Serializable {
         }
         if (currentUser == null) {
             displayFailure("Login failed username or password are unknown.");
-            return "login";
+            return "login?faces-redirect=true";
+        }else{
+            return "search?faces-redirect=true";
         }
-        //return "/search";
-        return "search?faces-redirect=true";
     }
 
     public String register() {
-        UserObject result = null;
         try {
-            result = userAuth.register(this.usernameInp, this.passwordInp);
+            currentUser = userAuth.register(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
             displayFailure(ex.getLocalizedMessage());
         }
-        if (result == null) {
+        if (currentUser == null) {
             displayFailure("Username is already in use.");
             return "login";
         }

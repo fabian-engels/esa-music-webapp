@@ -28,6 +28,7 @@
                     <h:form id="loginForm">
                         <p:messages id="messages" showDetail="true" autoUpdate="true" /> 
                         <p:panelGrid id="loginGrid" columns="3">
+                        <p:growl id="growl" showDetail="true"/>
                             Username:
                             <p:inputText id="usernameInp" value="#{login.usernameInp}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
                             Password:
