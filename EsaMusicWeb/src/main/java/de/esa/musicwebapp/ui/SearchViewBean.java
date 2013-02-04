@@ -44,10 +44,12 @@ public class SearchViewBean implements Serializable {
     public String changePW() {
         boolean result = false;
         if (currentUser == null) {
-            displayFailure("SearchViewBean currentUser is NULL");
-        }else if (this.newPwdInp == null) {
-            displayFailure("SearchViewBean new password is NULL");
-        }else{
+            displayFailure("SearchViewBean currentUser is NULL.");
+        }else if (this.newPwdInp == null || this.newPwdInp.isEmpty()) {
+            displayFailure("SearchViewBean new password is NULL or empty.");
+        }else if (this.newPwdInp != this.oldPwdInp) {
+            displayFailure("SearchViewBean new and old password do not match.");
+        } else{
             result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
         }
         if (result) {
