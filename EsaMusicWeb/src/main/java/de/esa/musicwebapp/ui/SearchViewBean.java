@@ -5,7 +5,7 @@
 package de.esa.musicwebapp.ui;
 
 import de.esa.musicwebapp.entity.Track;
-import de.esa.musicwebapp.service.userauth.ChangePWClient;
+import de.esa.musicwebapp.services.userauth.ChangePWClient;
 import de.esa.musicwebapp.services.lastfm.LastFMApi;
 import de.esa.userauth.domain.UserObject;
 import java.io.Serializable;
