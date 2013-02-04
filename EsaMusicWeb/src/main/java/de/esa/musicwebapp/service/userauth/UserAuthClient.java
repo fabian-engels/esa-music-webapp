@@ -19,7 +19,7 @@ import javax.ejb.Stateless;
 @LocalBean
 public class UserAuthClient {
     
-    @EJB(beanInterface=UserAuthRemote.class)
+    @EJB//(lookup="corbaname:iiop:localhost:3700#UserAuthRemote")
     private UserAuthRemote userAuth;
     
     public UserAuthClient() {
