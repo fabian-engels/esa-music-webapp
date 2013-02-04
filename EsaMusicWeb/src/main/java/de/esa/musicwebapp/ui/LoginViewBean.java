@@ -9,11 +9,16 @@ import de.esa.userauth.domain.IllegalUsernameException;
 import de.esa.userauth.domain.UserAuthRemote;
 import de.esa.userauth.domain.UserObject;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
 
 /**
  *
@@ -23,7 +28,9 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class LoginViewBean implements Serializable {
 
-    @EJB(beanInterface=UserAuthRemote.class)
+    private static Logger LOGGER = Logger.getLogger(LoginViewBean.class.getName());
+    
+    @EJB
     private UserAuthRemote userAuth;
     @EJB
     private ChangePWClient changePWClient;
@@ -34,7 +41,17 @@ public class LoginViewBean implements Serializable {
     private String passwordInp;
 
     public LoginViewBean(){
-        
+        try {
+            LOGGER.log(Level.WARNING, "### Getting JNDI Resources ###");
+            InitialContext ict = new InitialContext();
+            NamingEnumeration children = ict.list("");
+            while(children.hasMoreElements()){
+                NameClassPair ncPair = (NameClassPair)children.next();
+                LOGGER.log(Level.WARNING, ncPair.getName() + " (type ");
+                LOGGER.log(Level.WARNING, ncPair.getClassName() + ")");
+            }
+        } catch (Exception e) {
+        }
     }
     
     public boolean isLoggedIn() {
