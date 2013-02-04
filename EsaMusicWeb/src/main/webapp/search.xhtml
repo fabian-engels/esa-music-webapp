@@ -32,17 +32,25 @@
                         <p:panel menuTitle="Search Panel" >
                             <h:panelGrid columns="2" cellpadding="5">
                                 <h:outputText value="Title: "/>
-                                <p:inputText id="titleInp" value="#{searchViewBean.titleInp}"/>
+                                <p:inputText id="titleInp" value="#{search.titleInp}"/>
                                 <h:outputText value="Artist: "/>
-                                <p:inputText id="artistInp" value="#{searchViewBean.artistInp}"/>
-                                <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{searchViewBean.searchTrack()}" ajax="false"/> 
-                                <p:commandButton id="logoutBtn" value="Logout" actionListener="#{searchViewBean.logout()}" ajax="false"/> 
+                                <p:inputText id="artistInp" value="#{search.artistInp}"/>
+                                <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{search.searchTrack()}" ajax="false"/> 
+                                <p:commandButton id="logoutBtn" value="Logout" actionListener="#{search.logout()}" ajax="false"/> 
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="5" border="1">
+                                old password:
+                                <p:inputText id="oldPwdInp" value="#{search.oldPwdInp}"/>
+                                new password:
+                                <p:inputText id="newPwdInp" value="#{search.newPwdInp}"/>
+                                <p:commandButton id="changePasswordBtn" value="Change password" actionListener="#{search.changePW()}" ajax="false"/>
+                                <p:commandButton id="deleteUserBtn" value="Delete my user" actionListener="#{search.deleteUser()}" ajax="false"/>
                             </h:panelGrid>
                         </p:panel>
 
                         <p:dataTable id="musicTable" var="track"  rowKey="#{track.title}"
-                                     selection="#{searchViewBean.selectedTrack}" selectionMode="single"
-                                     rows="20" value="#{searchViewBean.trackList}" paginator="true">
+                                     selection="#{search.selectedTrack}" selectionMode="single"
+                                     rows="20" value="#{search.trackList}" paginator="true">
 
                             <p:ajax event="rowSelect" update=":form1:trackDialog" oncomplete="dlg1.show()" />  
 
@@ -67,17 +75,17 @@
                             <p:panelGrid columns="2">
                                 <p:panelGrid columns="2" >
                                     <h:outputText value="Title"/>
-                                    <h:outputText value="#{searchViewBean.selectedTrack.title}"/>
+                                    <h:outputText value="#{search.selectedTrack.title}"/>
                                     <h:outputText value="Artist"/>
-                                    <h:outputText value="#{searchViewBean.selectedTrack.artist}"/>
+                                    <h:outputText value="#{search.selectedTrack.artist}"/>
                                     <h:outputText value="Lyric"/>
-                                    <h:inputTextarea rows="10" cols="100" readonly="true" value="#{searchViewBean.selectedTrack.lyric}"/>
+                                    <h:inputTextarea rows="10" cols="100" readonly="true" value="#{search.selectedTrack.lyric}"/>
                                     <h:outputText value="SampleUri"/>
-                                    <h:outputLink value="#{searchViewBean.selectedTrack.sampleUri}">
-                                        #{searchViewBean.selectedTrack.sampleUri}
+                                    <h:outputLink value="#{search.selectedTrack.sampleUri}">
+                                        #{search.selectedTrack.sampleUri}
                                     </h:outputLink>
                                 </p:panelGrid>
-                                <h:graphicImage height="60px" width="60px" url="#{searchViewBean.selectedTrack.imageUri}" alt="Album Image" />
+                                <h:graphicImage height="60px" width="60px" url="#{search.selectedTrack.imageUri}" alt="Album Image" />
                             </p:panelGrid>
                         </p:dialog>
                     </h:form>

@@ -24,84 +24,65 @@ import javax.naming.NamingEnumeration;
  *
  * @author nto
  */
-@ManagedBean
+@ManagedBean(name = "login")
 @SessionScoped
 public class LoginViewBean implements Serializable {
 
     private static Logger LOGGER = Logger.getLogger(LoginViewBean.class.getName());
-    
     @EJB
     private UserAuthRemote userAuth;
-    @EJB
-    private ChangePWClient changePWClient;
-    
-    private UserObject current;
-    
+    private UserObject currentUser;
     private String usernameInp;
     private String passwordInp;
 
-    public LoginViewBean(){
+    public LoginViewBean() {
         try {
             LOGGER.log(Level.WARNING, "### Getting JNDI Resources ###");
             InitialContext ict = new InitialContext();
             NamingEnumeration children = ict.list("");
-            while(children.hasMoreElements()){
-                NameClassPair ncPair = (NameClassPair)children.next();
+            while (children.hasMoreElements()) {
+                NameClassPair ncPair = (NameClassPair) children.next();
                 LOGGER.log(Level.WARNING, ncPair.getName() + " (type ");
                 LOGGER.log(Level.WARNING, ncPair.getClassName() + ")");
             }
         } catch (Exception e) {
         }
     }
-    
+
     public boolean isLoggedIn() {
-        return current != null;
-    }
-    
-    public String changePW() {
-        boolean result = changePWClient.sendJMSMessage("changepw:" + this.usernameInp + ":" + this.passwordInp);
-           if(result){
-           }else{
-                FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", "Changing the password failed."));
-           }
-           return "/search";
+        return currentUser != null;
     }
 
-    public String deleteUser() {
-        boolean result = changePWClient.sendJMSMessage("deleteuser:" + this.usernameInp);
-        if(result){
-        }else{
-            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", "Unable to delete the user named: " + this.usernameInp));
-        }
-        return "/search";
+    public UserObject getCurrentUser() {
+        return this.currentUser;
     }
 
     public String login() {
-        try{
-            current = userAuth.login(this.usernameInp, this.passwordInp);
-        }catch(IllegalUsernameException ex){
-            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", ex.getLocalizedMessage()));
+        try {
+            currentUser = userAuth.login(this.usernameInp, this.passwordInp);
+        } catch (IllegalUsernameException ex) {
+            displayFailure(ex.getLocalizedMessage());
         }
-        if (current == null) {
-            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", "Login failed username or password are unknown."));
-            return "/login";
+        if (currentUser == null) {
+            displayFailure("Login failed username or password are unknown.");
+            return "login";
         }
         //return "/search";
         return "search?faces-redirect=true";
     }
 
     public String register() {
-        UserObject result=null;
+        UserObject result = null;
         try {
             result = userAuth.register(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
-            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", ex.getLocalizedMessage()));
+            displayFailure(ex.getLocalizedMessage());
         }
         if (result == null) {
-            FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registration failure", "Username is already in use."));
-            return "/login";
+            displayFailure("Username is already in use.");
+            return "login";
         }
-        return "/search";
+        return "search";
     }
 
     public String getUsernameInp() {
@@ -120,5 +101,7 @@ public class LoginViewBean implements Serializable {
         this.passwordInp = passwordInp;
     }
 
-   
+    private void displayFailure(String message) {
+        FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failure", message));
+    }
 }

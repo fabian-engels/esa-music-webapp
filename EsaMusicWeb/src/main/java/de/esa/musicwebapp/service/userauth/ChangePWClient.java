@@ -8,7 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -22,7 +23,8 @@ import javax.jms.Topic;
  *
  * @author nto
  */
-@Stateless
+@Startup
+@Singleton
 @LocalBean
 public class ChangePWClient {
     @Resource(mappedName = "JMSTopic")

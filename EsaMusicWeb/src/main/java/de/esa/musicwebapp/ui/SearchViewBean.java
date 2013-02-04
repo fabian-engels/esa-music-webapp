@@ -5,18 +5,23 @@
 package de.esa.musicwebapp.ui;
 
 import de.esa.musicwebapp.entity.Track;
-import de.esa.musicwebapp.services.SearchManager;
+import de.esa.musicwebapp.service.userauth.ChangePWClient;
 import de.esa.musicwebapp.services.lastfm.LastFMApi;
+import de.esa.userauth.domain.UserObject;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+
 /**
  *
  * @author nto
  */
-@ManagedBean
+@ManagedBean(name = "search")
 @SessionScoped
 public class SearchViewBean implements Serializable {
 
@@ -25,21 +30,81 @@ public class SearchViewBean implements Serializable {
     private String lyricInp;
     private String titleInp;
     private String artistInp;
-    
-    public SearchViewBean() {
-        trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
+    private String oldPwdInp;
+    private String newPwdInp;
+    @ManagedProperty(value = "#{login.currentUser}")
+    private UserObject currentUser;
+    @EJB
+    private ChangePWClient changePWClient;
+
+    public void setCurrentUser(UserObject currentUser) {
+        this.currentUser = currentUser;
     }
-    
+
+    public String changePW() {
+        if (currentUser == null) {
+            displayFailure("SearchViewBean currentUser is NULL");
+        }
+        if (this.newPwdInp == null) {
+            displayFailure("SearchViewBean new password is NULL");
+        }
+
+        boolean result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
+        if (result) {
+            displayInfo("Password successfuly changed.");
+        } else {
+            displayFailure("Password change failed.");
+        }
+        return "";
+    }
+
+    private void displayFailure(String message) {
+        FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", message));
+    }
+
+    private void displayInfo(String message) {
+        FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
+    }
+
+    public String deleteUser() {
+        boolean result = changePWClient.sendJMSMessage("deleteuser:" + currentUser.getName());
+        if (result) {
+        } else {
+            displayFailure("Unable to delete the user named: " + currentUser.getName());
+        }
+        return "search";
+    }
+
+    public SearchViewBean() {
+        // trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
+    }
+
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/login";
+        return "login";
+    }
+
+    public String getOldPwdInp() {
+        return oldPwdInp;
+    }
+
+    public void setOldPwdInp(String oldPwdInp) {
+        this.oldPwdInp = oldPwdInp;
+    }
+
+    public String getNewPwdInp() {
+        return newPwdInp;
+    }
+
+    public void setNewPwdInp(String newPwdInp) {
+        this.newPwdInp = newPwdInp;
     }
 
     /**
      * Proxy Method to call the business logic.
      */
     public void searchTrack() {
-       this.trackList = LastFMApi.getInstance().searchTrack(this.titleInp, this.artistInp);
+        this.trackList = LastFMApi.getInstance().searchTrack(this.titleInp, this.artistInp);
     }
 
     public String getLyricInp() {
