@@ -95,7 +95,8 @@ public class LoginViewBean implements Serializable {
             displayFailure("Username is already in use.");
             return "";
         }else{
-            return "search?faces-redirect=true";
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Registration was successful."));
+            return "";
         }
     }
 
