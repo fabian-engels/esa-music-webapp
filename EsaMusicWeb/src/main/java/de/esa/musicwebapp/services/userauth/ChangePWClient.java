@@ -7,7 +7,6 @@ package de.esa.musicwebapp.services.userauth;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.jms.Connection;
@@ -25,13 +24,11 @@ import javax.jms.Topic;
  */
 @Startup
 @Singleton
-@LocalBean
 public class ChangePWClient {
     @Resource(mappedName = "JMSTopic")
     private Topic jMSTopic;
     @Resource(mappedName = "JMSTopicFactory")
     private ConnectionFactory jMSTopicFactory;
-
     
     public boolean sendJMSMessage(String messageData) {
         boolean result = true;

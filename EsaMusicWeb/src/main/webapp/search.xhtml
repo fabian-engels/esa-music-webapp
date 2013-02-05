@@ -6,14 +6,14 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
-        <h:head>
+        <h:head rendered="#{login.loggedIn}">
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>ESA Music Cloud</title>
             </f:facet>
         </h:head>
 
-        <h:body>
+        <h:body rendered="#{login.loggedIn}">
             <h:outputStylesheet library="css" name="default.css" />
             <p:layout fullPage="true">
 

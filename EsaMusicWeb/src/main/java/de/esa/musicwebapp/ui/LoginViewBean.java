@@ -36,13 +36,13 @@ public class LoginViewBean implements Serializable {
 
     public LoginViewBean() {
         try {
-            LOGGER.log(Level.WARNING, "### Getting JNDI Resources ###");
+            LOGGER.log(Level.INFO, "### Getting JNDI Resources ###");
             InitialContext ict = new InitialContext();
             NamingEnumeration<NameClassPair> children = ict.list("");
             while (children.hasMoreElements()) {
                 NameClassPair ncPair = children.next();
-                LOGGER.log(Level.WARNING, "{0} (type ", ncPair.getName());
-                LOGGER.log(Level.WARNING, "{0})", ncPair.getClassName());
+                LOGGER.log(Level.INFO, "{0} (type ", ncPair.getName());
+                LOGGER.log(Level.INFO, "{0})", ncPair.getClassName());
             }
         } catch (Exception e) {
         }

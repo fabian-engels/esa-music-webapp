@@ -5,8 +5,8 @@
 package de.esa.musicwebapp.ui;
 
 import de.esa.musicwebapp.entity.Track;
+import de.esa.musicwebapp.services.SearchManager;
 import de.esa.musicwebapp.services.userauth.ChangePWClient;
-import de.esa.musicwebapp.services.lastfm.LastFMApi;
 import de.esa.userauth.domain.UserObject;
 import java.io.Serializable;
 import java.util.List;
@@ -47,7 +47,7 @@ public class SearchViewBean implements Serializable {
             displayFailure("SearchViewBean currentUser is NULL.");
         }else if (this.newPwdInp == null || this.newPwdInp.isEmpty()) {
             displayFailure("SearchViewBean new password is NULL or empty.");
-        }else if (this.newPwdInp != this.oldPwdInp) {
+        }else if (!this.newPwdInp.equals(this.oldPwdInp)) {
             displayFailure("SearchViewBean new and old password do not match.");
         } else{
             result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
@@ -73,7 +73,7 @@ public class SearchViewBean implements Serializable {
         if (result) {
         } else {
             displayFailure("Unable to delete the user named: " + currentUser.getName());
-            return "";
+            return logout();
         }
         return "login";
     }
@@ -107,7 +107,7 @@ public class SearchViewBean implements Serializable {
      * Proxy Method to call the business logic.
      */
     public void searchTrack() {
-        this.trackList = LastFMApi.getInstance().searchTrack(this.titleInp, this.artistInp);
+        this.trackList = SearchManager.getInstance().searchTracks(titleInp, artistInp);
     }
 
     public String getLyricInp() {
