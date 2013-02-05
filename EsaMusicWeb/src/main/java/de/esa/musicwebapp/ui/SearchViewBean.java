@@ -47,7 +47,7 @@ public class SearchViewBean implements Serializable {
             displayFailure("SearchViewBean currentUser is NULL.");
         }else if (this.newPwdInp == null || this.newPwdInp.isEmpty()) {
             displayFailure("SearchViewBean new password is NULL or empty.");
-        }else if (!this.newPwdInp.equals(this.oldPwdInp)) {
+        }else if (!this.currentUser.getPassword().equals(this.oldPwdInp)) {
             displayFailure("SearchViewBean new and old password do not match.");
         } else{
             result = changePWClient.sendJMSMessage("changepw:" + currentUser.getName() + ":" + this.newPwdInp);
