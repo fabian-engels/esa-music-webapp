@@ -30,11 +30,11 @@
                         <p:panelGrid id="loginGrid" columns="3">
                         <p:growl id="growl" showDetail="true"/>
                             Username:
-                            <p:inputText id="usernameInp" value="#{login.usernameInp}" required="true"/><p:message id="loginMessage" for="usernameInp"/>
+                            <p:inputText id="usernameInp" value="#{login.usernameInp}" /><p:message id="loginMessage" for="usernameInp"/>
                             Password:
-                            <p:password id="passwordInp" value="#{login.passwordInp}" required="true"/><p:message id="registerMessage" for="passwordInp"/>
+                            <p:password id="passwordInp" value="#{login.passwordInp}" /><p:message id="registerMessage" for="passwordInp"/>
                             <p:commandButton id="loginBtn" value="Login" action="#{login.login()}" update="loginForm"/>
-                            <p:commandButton id="registerBtn" value="register" action="#{login.register()}" update="loginForm"/>
+                            <p:commandButton id="registerBtn" value="Register" action="#{login.register()}" update="loginForm"/>
                         </p:panelGrid>
                     </h:form>
                 </p:layoutUnit>

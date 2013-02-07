@@ -57,6 +57,9 @@ public class LoginViewBean implements Serializable {
     }
 
     public String login() {
+        if (!verifyCredentials()) {
+            return "";
+        }
         try {
             currentUser = userAuth.login(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
@@ -66,25 +69,28 @@ public class LoginViewBean implements Serializable {
         if (currentUser == null) {
             displayFailure("Username or password are unknown.");
             return "";
-        }else{
+        } else {
             return "search?faces-redirect=true";
         }
     }
 
     private boolean verifyCredentials() {
         boolean result = true;
-        if(usernameInp == null || usernameInp.trim().length() == 0) {
+        if (usernameInp == null || usernameInp.trim().length() == 0) {
             displayError("growl", "Invalid input", "Username is required.");
             result = false;
         }
-        if(passwordInp == null || passwordInp.trim().length() == 0) {
+        if (passwordInp == null || passwordInp.trim().length() == 0) {
             displayError("growl", "Invalid input", "Password is required.");
             result = false;
         }
         return result;
     }
-        
+
     public String register() {
+        if (!verifyCredentials()) {
+            return "";
+        }
         try {
             currentUser = userAuth.register(this.usernameInp, this.passwordInp);
         } catch (IllegalUsernameException ex) {
@@ -94,8 +100,8 @@ public class LoginViewBean implements Serializable {
         if (currentUser == null) {
             displayFailure("Username is already in use.");
             return "";
-        }else{
-            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info","Registration was successful."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registration was successful."));
             return "";
         }
     }
