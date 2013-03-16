@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.esa.userauth.domain;
 
 import java.util.List;
@@ -17,9 +13,11 @@ import javax.naming.NamingEnumeration;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+
 /**
- *
- * @author nto
+ * This class is designed to be created on application startup,
+ * this way all methods are already accessable on user http request.
+ * @author martin, fabian
  */
 @Startup
 @Singleton
@@ -52,7 +50,7 @@ public class UserAuth implements UserAuthRemote {
             return user;
         }else{
             throw new IllegalUsernameException("Unknown username or password.");
-            /* For more security we throw no username or password specific exception. */
+            /* For more security we do not throw a username or password specific exception. */
         }
     }
 
