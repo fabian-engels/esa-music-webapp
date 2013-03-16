@@ -20,7 +20,7 @@ import javax.jms.Topic;
 
 /**
  *
- * @author nto
+ * @author martin
  */
 @Startup
 @Singleton

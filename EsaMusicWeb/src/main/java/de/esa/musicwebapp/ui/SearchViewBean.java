@@ -18,8 +18,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
- *
- * @author nto
+ * ManagedBean to be accessed after successful login.
+ * All public methods are bound to the JSF UI 
+ * @author Fabian
  */
 @ManagedBean(name = "search")
 @SessionScoped
@@ -60,10 +61,18 @@ public class SearchViewBean implements Serializable {
         return "";
     }
 
+    /**
+     * Helper method to display failure messages on the messages target.
+     * @param message 
+     */
     private void displayFailure(String message) {
         FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", message));
     }
 
+    /**
+     * 
+     * @param message 
+     */
     private void displayInfo(String message) {
         FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
     }
@@ -82,6 +91,10 @@ public class SearchViewBean implements Serializable {
         // trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
     }
 
+    /**
+     * Method to destroy the current HTTP-Session.
+     * @return 
+     */
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login";

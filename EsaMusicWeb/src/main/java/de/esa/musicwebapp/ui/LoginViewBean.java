@@ -20,8 +20,9 @@ import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
 /**
- *
- * @author nto
+ * This class is created on application access. 
+ * The user login state is manged here, therefore it is necessary to   
+ * @author Fabian
  */
 @ManagedBean(name = "login")
 @SessionScoped
@@ -89,7 +90,7 @@ public class LoginViewBean implements Serializable {
 
     public String register() {
         if (!verifyCredentials()) {
-            return "";
+            return ""; /*warning der UI unterdrücken*/
         }
         try {
             currentUser = userAuth.register(this.usernameInp, this.passwordInp);

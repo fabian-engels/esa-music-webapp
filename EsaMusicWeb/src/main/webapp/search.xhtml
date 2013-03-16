@@ -6,10 +6,11 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
+        
         <h:head rendered="#{login.loggedIn}">
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>ESA Music Cloud</title>
+                <title>ESA Music Webapp</title>
             </f:facet>
         </h:head>
 
@@ -18,27 +19,37 @@
             <p:layout fullPage="true">
 
                 <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
-                    Header
+                    <b>ESA Music Webapp</b><br/>
+                    Applied SOA to search music online on last.fm and chartlyrics 
                 </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
-                    Footer
+                    EsaMusicWebapp eine Projektarbeit im Kurs Enterprise Software Architecture WS 2012/2013
                 </p:layoutUnit>
+
+                <p:dialog id="passwordDialog" widgetVar="pwDlg" resizable="false"
+                          header="Change Own Password"  modal="true">
+                    <h:form id="passwordDialogForm">
+                        <h:panelGrid columns="2" cellpadding="5" border="1">
+                            old password:
+                            <p:password id="oldPwdInp" value="#{search.oldPwdInp}"/>
+                            new password:
+                            <p:password id="newPwdInp" value="#{search.newPwdInp}"/>
+                            <p:commandButton id="changePasswordBtn" value="Change password" actionListener="#{search.changePW()}" update="growl" ajax="false"/>
+                            <p:commandButton id="deleteUserBtn" value="Delete my user" actionListener="#{search.deleteUser()}" update="growl" ajax="false"/>   
+                        </h:panelGrid>
+                    </h:form>
+                </p:dialog>
 
                 <p:layoutUnit position="center">
                     <h:form id="passwordForm">
                         <p:growl id="growl" showDetail="true"/>
-                     <h:panelGrid columns="2" cellpadding="5" border="1">
-                                old password:
-                                <p:inputText id="oldPwdInp" value="#{search.oldPwdInp}"/>
-                                new password:
-                                <p:inputText id="newPwdInp" value="#{search.newPwdInp}"/>
-                                <p:commandButton id="changePasswordBtn" value="Change password" actionListener="#{search.changePW()}" update="growl" ajax="false"/>
-                                <p:commandButton id="deleteUserBtn" value="Delete my user" actionListener="#{search.deleteUser()}" update="growl" ajax="false"/>
-                                <p:commandButton id="logoutBtn" value="Logout" actionListener="#{search.logout()}" ajax="false"/> 
-                            </h:panelGrid>
-                        </h:form>
-                    
+                        <h:panelGrid columns="2" cellpadding="5" border="1">
+                            <p:commandButton id="changePwDlgBtn" value="Change Password" onclick="pwDlg.show()"  type="button"/> 
+                            <p:commandButton id="logoutBtn" value="Logout" actionListener="#{search.logout()}" ajax="false"/> 
+                        </h:panelGrid>
+                    </h:form>
+
                     <h:form id="form1">
                         <p:panel menuTitle="Search Panel" >
                             <h:panelGrid columns="2" cellpadding="5" border="1">
@@ -48,53 +59,51 @@
                                 <p:inputText id="artistInp" value="#{search.artistInp}"/>
                                 <p:commandButton id="searchTitleBtn" value="Search" actionListener="#{search.searchTrack()}" ajax="false"/> 
                             </h:panelGrid>
-                           
                         </p:panel>
+                    
+                   
+                    <p:dataTable id="musicTable" var="track"  rowKey="#{track.title}"
+                                 selection="#{search.selectedTrack}" selectionMode="single"
+                                 rows="20" value="#{search.trackList}" paginator="true">
+                        <p:ajax event="rowSelect" update=":form1:trackDialog" oncomplete="dlg1.show()" />  
 
-                        <p:dataTable id="musicTable" var="track"  rowKey="#{track.title}"
-                                     selection="#{search.selectedTrack}" selectionMode="single"
-                                     rows="20" value="#{search.trackList}" paginator="true">
+                        <f:facet name="header">
+                            Music found according to search:
+                        </f:facet>
 
-                            <p:ajax event="rowSelect" update=":form1:trackDialog" oncomplete="dlg1.show()" />  
+                        <p:column headerText="Artist" sortBy="#{track.artist}">
+                            <h:outputText value="#{track.artist}"/>
+                        </p:column>
+                        <p:column headerText="Title" sortBy="#{track.title}">
+                            <h:outputText value="#{track.title}"/>
+                        </p:column>
+                        <p:column headerText="Cover">
+                            <h:graphicImage style="height: 60px;width: 60px" url="#{track.imageUri}"/>
+                        </p:column>
+                    </p:dataTable>
 
-                            <f:facet name="header">
-                                Music found according to search:
-                            </f:facet>
-
-                            <p:column headerText="Artist" sortBy="#{track.artist}">
-                                <h:outputText value="#{track.artist}"/>
-                            </p:column>
-                            <p:column headerText="Title" sortBy="#{track.title}">
-                                <h:outputText value="#{track.title}"/>
-                            </p:column>
-                            <p:column headerText="Cover">
-                                <h:graphicImage style="height: 60px;width: 60px" url="#{track.imageUri}"/>
-                            </p:column>
-
-                        </p:dataTable>
-                        <p:dialog id="trackDialog" widgetVar="dlg1" resizable="false"
-                                  header="Track Detail" >
-
-                            <p:panelGrid columns="2">
-                                <p:panelGrid columns="2" >
-                                    <h:outputText value="Title"/>
-                                    <h:outputText value="#{search.selectedTrack.title}"/>
-                                    <h:outputText value="Artist"/>
-                                    <h:outputText value="#{search.selectedTrack.artist}"/>
-                                    <h:outputText value="Lyric"/>
-                                    <h:inputTextarea rows="10" cols="100" readonly="true" value="#{search.selectedTrack.lyric}"/>
-                                    <h:outputText value="SampleUri"/>
-                                    <h:outputLink value="#{search.selectedTrack.sampleUri}">
-                                        #{search.selectedTrack.sampleUri}
-                                    </h:outputLink>
-                                </p:panelGrid>
-                                <h:graphicImage height="60px" width="60px" url="#{search.selectedTrack.imageUri}" alt="Album Image" />
+                    <p:dialog id="trackDialog" widgetVar="dlg1" resizable="false"  header="Track Detail" >
+                        <p:panelGrid columns="2">
+                            <p:panelGrid columns="2" >
+                                <h:outputText value="Title"/>
+                                <h:outputText value="#{search.selectedTrack.title}"/>
+                                <h:outputText value="Artist"/>
+                                <h:outputText value="#{search.selectedTrack.artist}"/>
+                                <h:outputText value="Lyric"/>
+                                <h:inputTextarea rows="10" cols="100" readonly="true" value="#{search.selectedTrack.lyric}"/>
+                                <h:outputText value="SampleUri"/>
+                                <h:outputLink value="#{search.selectedTrack.sampleUri}">
+                                    #{search.selectedTrack.sampleUri}
+                                </h:outputLink>
                             </p:panelGrid>
-                        </p:dialog>
-                    </h:form>
-                </p:layoutUnit>
-                
-            </p:layout>
+                            <h:graphicImage height="60px" width="60px" url="#{search.selectedTrack.imageUri}" alt="Album Image" />
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
+                   
+                </p:layoutUnit> <!-- end of center layoutUnit -->
+
+            </p:layout> <!-- end of page layout -->
         </h:body>
     </f:view>
 </html>

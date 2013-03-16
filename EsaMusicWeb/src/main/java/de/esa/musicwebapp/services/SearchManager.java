@@ -8,7 +8,7 @@ import de.esa.musicwebapp.services.lastfm.LastFMApi;
 
 /**
  *
- * @author nto
+ * @author erik
  */
 public class SearchManager {
 
