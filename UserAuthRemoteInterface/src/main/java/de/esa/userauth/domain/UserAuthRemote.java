@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.esa.userauth.domain;
 
 import javax.ejb.Remote;
 
 /**
- *
- * @author nto
+ * This interface shall be included in client and server side code,
+ * to access the remote methods to manage UserObjects.
+ * @author martin, fabian
  */
 @Remote
 public interface UserAuthRemote {

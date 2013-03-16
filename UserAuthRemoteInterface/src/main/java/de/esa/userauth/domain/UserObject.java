@@ -8,7 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
+/**
+ * User domain object to be used in business logic as well as in the user interface.
+ * The annoations are used by JPA for transparent object persistence.
+ *  @author martin, fabian
+ */
 @Entity
 @Table(name="user")
 public class UserObject implements Serializable{
