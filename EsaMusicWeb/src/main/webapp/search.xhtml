@@ -14,6 +14,7 @@
             </f:facet>
         </h:head>
 
+        <!-- content is only rendered of the login state is true -->
         <h:body rendered="#{login.loggedIn}">
             <h:outputStylesheet library="css" name="default.css" />
             <p:layout fullPage="true">

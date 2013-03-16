@@ -26,15 +26,28 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class SearchViewBean implements Serializable {
 
+    /**
+     * Model used by the ui datatable.
+     */
     private List<Track> trackList;
+    /**
+     * Currently selected track of the datatable.
+     */
     private Track selectedTrack;
     private String lyricInp;
     private String titleInp;
     private String artistInp;
     private String oldPwdInp;
     private String newPwdInp;
+    /**
+     * Container managed instance  of changePWClient used for password change methods.
+     */
     @EJB
     private ChangePWClient changePWClient;
+    /**
+     * Property of managed bean managed by webcontainer.
+     * This property is used to determine the login state of the current user.
+     */
     @ManagedProperty(value = "#{login.currentUser}")
     private UserObject currentUser;
 
@@ -42,6 +55,14 @@ public class SearchViewBean implements Serializable {
         this.currentUser = currentUser;
     }
     
+    /**
+     * Method to change the password of the current user.
+     * This method validates the old and new password.
+     * If the old password is correct and the new one is different the password will be set in the database.
+     * The database access is deligated to the changePWClent.
+     * Result notification messages are displayed on the UI
+     * @return view name to redirect to
+     */
     public String changePW() {
         boolean result = false;
         if (currentUser == null) {
@@ -70,23 +91,30 @@ public class SearchViewBean implements Serializable {
     }
 
     /**
-     * 
+     * Helper method to display information messages on the messages target. 
      * @param message 
      */
     private void displayInfo(String message) {
         FacesContext.getCurrentInstance().addMessage("messages", new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
     }
 
+    /**
+     * Method to delete the current logged in user using the JMS client.
+     * @return login as redirection target
+     */
     public String deleteUser() {
         boolean result = changePWClient.sendJMSMessage("deleteuser:" + currentUser.getName());
         if (result) {
         } else {
             displayFailure("Unable to delete the user named: " + currentUser.getName());
-            return logout();
+            return "login";
         }
         return "login";
     }
 
+    /**
+     * Standard constructor called on view access.
+     */
     public SearchViewBean() {
         // trackList = SearchManager.getInstance().searchTracks("Thriller", "Michael Jackson");
     }

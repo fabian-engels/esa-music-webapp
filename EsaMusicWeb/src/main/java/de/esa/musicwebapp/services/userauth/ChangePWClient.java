@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.esa.musicwebapp.services.userauth;
 
 import java.util.logging.Level;
@@ -19,17 +15,30 @@ import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 /**
- *
+ * This class is a JMS Client which produces messages for the JMSTopic.
+ * Messages are send without modification.
+ * It is necessary to create the class instance on startup to avoid runtime exceptions on UI access. 
  * @author martin
  */
 @Startup
 @Singleton
 public class ChangePWClient {
+    /**
+     * Destination for all JMS messages which must be provided by the application server.
+     */
     @Resource(mappedName = "JMSTopic")
     private Topic jMSTopic;
+     /**
+      * ConnectionFactory for JMS messages producer must be provided by the application server..
+      */
     @Resource(mappedName = "JMSTopicFactory")
     private ConnectionFactory jMSTopicFactory;
     
+    /**
+     * Method for local access to send JMS messages to JMSTopic.
+     * @param messageData
+     * @return 
+     */
     public boolean sendJMSMessage(String messageData) {
         boolean result = true;
         try {
@@ -42,13 +51,24 @@ public class ChangePWClient {
         }
     }
     
+    /**
+     * Helper method to encapsulate the message creation.
+     * @param session
+     * @param messageData
+     * @return
+     * @throws JMSException 
+     */
     private Message createJMSMessageForjMSTopic(Session session, String messageData) throws JMSException {
-        // TODO create and populate message to send
         TextMessage tm = session.createTextMessage();
         tm.setText(messageData);
         return tm;
     }
 
+    /**
+     * Method only used by class to send a text as message dirctly to the class resource JMSTopic.
+     * @param messageData
+     * @throws JMSException 
+     */
     private void sendJMSMessageToJMSTopic(String messageData) throws JMSException {
         Connection connection = null;
         Session session = null;
