@@ -1,0 +1,1 @@
+To create multiple glassfish instances use the following command: **asadmin create-domain --portbase**
